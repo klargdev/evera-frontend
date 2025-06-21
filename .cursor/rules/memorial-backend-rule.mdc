@@ -1,0 +1,89 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+{
+  "project": "Memorial Web App Backend",
+  "description": "This is the backend of a memorial application built with Node.js, Express, MongoDB, and Cloudinary. It handles OTP-based authentication, memorial creation, media uploads, guestbook, and Kwari-based payment logic.",
+  "tech_stack": {
+    "language": "JavaScript",
+    "backend_framework": "Express",
+    "database": "MongoDB with Mongoose",
+    "storage": "Cloudinary",
+    "authentication": "JWT and phone OTP",
+    "payment": "Kwari API (Ghana)"
+  },
+  "file_conventions": {
+    "config": "Holds DB and Cloudinary config files.",
+    "controllers": "Contains logic for each major feature (auth, memorial, payment, media, guestbook, etc).",
+    "models": "Mongoose schemas for User, Memorial, Media, GuestbookEntry.",
+    "routes": "Express routes for each controller, grouped by function.",
+    "services": "Reusable logic like OTP generation, Kwari payment, QR generation.",
+    "utils": "Helpers like validators, cost calculator, upload wrappers.",
+    "middleware": "Auth check, error handler, file upload (Multer).",
+    "server.js": "Entry point. Loads environment variables, sets up app, routes, DB, and error handling."
+  },
+  "rules": {
+    "auth": {
+      "method": "JWT",
+      "otp": "OTP-based phone login (one-time use)",
+      "passwords": "No password authentication"
+    },
+    "controllers": {
+      "error_handling": "Use try/catch blocks and forward errors to next() with errorHandler middleware.",
+      "response_format": "Respond with standardized JSON { success, data, message }."
+    },
+    "models": {
+      "timestamps": true,
+      "soft_delete": true
+    },
+    "uploads": {
+      "library": "Multer + Cloudinary",
+      "max_file_size": "10MB",
+      "media_types": ["image/jpeg", "image/png", "video/mp4", "audio/mpeg"]
+    },
+    "payment": {
+      "provider": "Kwari",
+      "integration": {
+        "initiate": "Client requests payment link or QR from backend.",
+        "confirm": "Webhook from Kwari updates payment status.",
+        "pricing_logic": "Stored in utils/calculator.js and called before initiating payment."
+      }
+    },
+    "guestbook": {
+      "post_types": ["text", "photo_with_caption", "video_with_caption"],
+      "reactions": ["❤️", "🙏", "😢"],
+      "limits": {
+        "free_entries": 50,
+        "max_video_length": "60s"
+      }
+    },
+    "publishing": {
+      "preview_enabled": true,
+      "publish_gate": "Must complete payment before memorial is shareable.",
+      "status_field": ["draft", "published", "expired"]
+    }
+  },
+  "naming_conventions": {
+    "models": "PascalCase (e.g. Memorial, User, GuestbookEntry)",
+    "files": "kebab-case (e.g. memorial-controller.js)",
+    "variables": "camelCase",
+    "routes": "RESTful and grouped by feature"
+  },
+  "security": {
+    "env": "Use .env for all API keys and secrets.",
+    "validation": "Use express-validator or custom middleware for validating user input.",
+    "auth_middleware": "Protect all routes that modify or view private data."
+  },
+  "comments": {
+    "style": "JSDoc",
+    "require_for": ["all models", "all exported controller functions"]
+  },
+  "testing": {
+    "unit": "Jest or Mocha",
+    "structure": "tests/ directory matching project structure",
+    "suggest": true
+  }
+}
+
