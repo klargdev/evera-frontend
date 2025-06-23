@@ -14,10 +14,6 @@ const authCustom: RouteObject[] = [
 		path: "register",
 		element: <LoginPage />,
 	},
-	{
-		path: "/reset-password",
-		element: <ResetPasswordPage />,
-	},
 ];
 
 export const authRoutes: RouteObject[] = [
@@ -30,7 +26,7 @@ export const authRoutes: RouteObject[] = [
 		),
 		children: authCustom,
 	},
-	// Also allow /reset-password at the root level
+	// Only add reset-password as a top-level route
 	{
 		path: "reset-password",
 		element: <ResetPasswordPage />,
