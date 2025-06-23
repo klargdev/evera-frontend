@@ -1,4 +1,3 @@
-import { DB_USER } from "@/_mock/assets_backup";
 import type { SignInReq } from "@/api/services/userService";
 import { Icon } from "@/components/icon";
 import { useSignIn } from "@/store/userStore";
@@ -28,8 +27,8 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
 	const form = useForm<SignInReq>({
 		defaultValues: {
-			username: DB_USER[0].username,
-			password: DB_USER[0].password,
+			email: "",
+			password: "",
 		},
 	});
 
@@ -42,6 +41,10 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 			navigatge(HOMEPAGE, { replace: true });
 			toast.success("Sign in success!", {
 				closeButton: true,
+			});
+		} catch (err) {
+			toast.error("Something went wrong. Please check your email and password and try again.", {
+				position: "top-center",
 			});
 		} finally {
 			setLoading(false);
@@ -59,13 +62,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
 					<FormField
 						control={form.control}
-						name="username"
-						rules={{ required: t("sys.login.accountPlaceholder") }}
+						name="email"
+						rules={{ required: "Email is required" }}
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{t("sys.login.userName")}</FormLabel>
+								<FormLabel>Email</FormLabel>
 								<FormControl>
-									<Input placeholder={DB_USER.map((user) => user.username).join("/")} {...field} />
+									<Input placeholder="Email" {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -80,7 +83,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 							<FormItem>
 								<FormLabel>{t("sys.login.password")}</FormLabel>
 								<FormControl>
-									<Input type="password" placeholder={DB_USER[0].password} {...field} suppressHydrationWarning />
+									<Input type="password" placeholder={t("sys.login.passwordPlaceholder")} {...field} suppressHydrationWarning />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
