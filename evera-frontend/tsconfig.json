@@ -1,17 +1,38 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.vitest.json"
-    }
-  ],
-  "compilerOptions": {
-    "module": "NodeNext"
-  }
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"useDefineForClassFields": true,
+		"skipLibCheck": true,
+		"allowJs": true,
+		"moduleResolution": "bundler",
+		"sourceMap": true,
+		"declaration": true,
+		"preserveWatchOutput": true,
+		"removeComments": true,
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
+		"esModuleInterop": true,
+
+		"strict": true,
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"useUnknownInCatchVariables": false,
+		
+
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"#/*": ["src/types/*"]
+		}
+	},
+	"include": ["src", "src/types", "tailwind.config.ts"],
+	"exclude": ["node_modules", "dist"]
 }
