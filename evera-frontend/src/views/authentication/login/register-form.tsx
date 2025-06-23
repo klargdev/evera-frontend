@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ReturnButton } from "./components/ReturnButton";
 import { LoginStateEnum, useLoginStateContext } from "./providers/login-provider";
+import { toast } from "sonner";
 
 function RegisterForm({ plan = "" }) {
 	const { t } = useTranslation();
@@ -19,7 +20,8 @@ function RegisterForm({ plan = "" }) {
 
 	const form = useForm({
 		defaultValues: {
-			username: "",
+			firstName: "",
+			lastName: "",
 			email: "",
 			password: "",
 			confirmPassword: "",
@@ -32,9 +34,25 @@ function RegisterForm({ plan = "" }) {
 	}, [plan]);
 
 	const onFinish = async (values: any) => {
-		console.log("Received values of form: ", values);
-		await signUpMutation.mutateAsync(values);
-		backToLogin();
+		try {
+			await signUpMutation.mutateAsync(values);
+			toast.success("Account created! Please check your email to verify your account before logging in.", {
+				position: "top-center",
+				duration: 5000,
+			});
+			setTimeout(() => {
+				backToLogin();
+			}, 2000);
+		} catch (error) {
+			// Show user-friendly error message
+			let message = "Something went wrong. Please try again.";
+			if (error?.message && !error.message.includes('Cannot read') && !error.message.includes('undefined')) {
+				message = error.message;
+			}
+			toast.error(message, {
+				position: "top-center",
+			});
+		}
 	};
 
 	if (loginState !== LoginStateEnum.REGISTER) return null;
@@ -51,12 +69,26 @@ function RegisterForm({ plan = "" }) {
 
 				<FormField
 					control={form.control}
-					name="username"
-					rules={{ required: t("sys.login.accountPlaceholder") }}
+					name="firstName"
+					rules={{ required: "First name is required" }}
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<Input placeholder={t("sys.login.userName")} {...field} />
+								<Input placeholder="First Name" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="lastName"
+					rules={{ required: "Last name is required" }}
+					render={({ field }) => (
+						<FormItem>
+							<FormControl>
+								<Input placeholder="Last Name" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
