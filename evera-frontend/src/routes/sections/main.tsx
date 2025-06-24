@@ -8,6 +8,9 @@ const Page404 = lazy(() => import("@/pages/sys/error/Page404"));
 const Page500 = lazy(() => import("@/pages/sys/error/Page500"));
 const EveraLanding = lazy(() => import("@/EveraLanding"));
 
+// Add debugging
+console.log("Main routes being registered");
+
 // Wrapper component to scroll to plans section
 const PlansSection = () => {
 	const plansSection = document.getElementById('plans');
@@ -19,7 +22,7 @@ const PlansSection = () => {
 
 export const mainRoutes: RouteObject[] = [
 	{
-		path: "/",
+		path: "",
 		element: (
 			<SimpleLayout>
 				<Suspense fallback={<LineLoading />}>

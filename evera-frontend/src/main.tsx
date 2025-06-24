@@ -38,8 +38,5 @@ const router = createBrowserRouter(
 	},
 );
 
-// Print all routes for debugging
-console.log("Registered routes:", router.routes);
-
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(<RouterProvider router={router} />);

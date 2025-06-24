@@ -10,7 +10,7 @@ const Workbench = lazy(() => import("@/pages/dashboard/workbench"));
 
 export const dashboardRoutes: RouteObject[] = [
 	{
-		path: "/dashboard",
+		path: "dashboard",
 		element: (
 			<LoginAuthGuard>
 				<Suspense fallback={<LineLoading />}>

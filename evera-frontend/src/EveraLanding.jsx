@@ -129,7 +129,7 @@ export default function EveraLanding() {
 
 	const handlePlanSelect = (planName) => {
 		navigate({
-			pathname: '/auth/login',
+			pathname: '/login',
 			search: `?plan=${planName.toLowerCase()}`
 		});
 	};

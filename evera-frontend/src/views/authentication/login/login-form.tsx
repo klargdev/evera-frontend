@@ -1,6 +1,6 @@
 import type { SignInReq } from "@/api/services/userService";
 import { Icon } from "@/components/icon";
-import { useSignIn } from "@/store/userStore";
+import { useSignIn, useUserInfo } from "@/store/userStore";
 import { Button } from "@/ui/button";
 import { Checkbox } from "@/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/ui/form";
@@ -24,6 +24,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
 	const { loginState, setLoginState } = useLoginStateContext();
 	const signIn = useSignIn();
+	const userInfo = useUserInfo();
 
 	const form = useForm<SignInReq>({
 		defaultValues: {
@@ -38,7 +39,15 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 		setLoading(true);
 		try {
 			await signIn(values);
-			navigatge(HOMEPAGE, { replace: true });
+			// Check user roles and redirect accordingly
+			const roles = Array.isArray(userInfo?.roles)
+				? userInfo.roles.map(r => (r.code || r.name || "").toLowerCase())
+				: [];
+			if (roles.includes("super-admin")) {
+				navigatge("/dashboard/analysis", { replace: true });
+			} else {
+				navigatge("/dashboard/workbench", { replace: true });
+			}
 			toast.success("Sign in success!", {
 				closeButton: true,
 			});

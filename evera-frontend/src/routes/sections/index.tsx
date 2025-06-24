@@ -12,4 +12,4 @@ export const routesSection: RouteObject[] = [
 	...mainRoutes,
 	// No Match
 	{ path: "*", element: <Navigate to="/404" replace /> },
-];
+]; 

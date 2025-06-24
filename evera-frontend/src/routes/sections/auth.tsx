@@ -1,34 +1,32 @@
 import { Suspense, lazy } from "react";
-import { Outlet } from "react-router";
 import type { RouteObject } from "react-router";
 
 const LoginPage = lazy(() => import("@/views/authentication/login"));
 const ResetPasswordPage = lazy(() => import("@/views/authentication/login/reset-password-page"));
 
-const authCustom: RouteObject[] = [
+export const authRoutes: RouteObject[] = [
 	{
 		path: "login",
-		element: <LoginPage />,
+		element: (
+			<Suspense fallback={<div>Loading login...</div>}>
+				<LoginPage />
+			</Suspense>
+		),
 	},
 	{
 		path: "register",
-		element: <LoginPage />,
-	},
-];
-
-export const authRoutes: RouteObject[] = [
-	{
-		path: "auth",
 		element: (
-			<Suspense>
-				<Outlet />
+			<Suspense fallback={<div>Loading register...</div>}>
+				<LoginPage />
 			</Suspense>
 		),
-		children: authCustom,
 	},
-	// Only add reset-password as a top-level route
 	{
 		path: "reset-password",
-		element: <ResetPasswordPage />,
+		element: (
+			<Suspense fallback={<div>Loading reset password...</div>}>
+				<ResetPasswordPage />
+			</Suspense>
+		),
 	},
 ];
